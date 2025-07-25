@@ -1,13 +1,11 @@
-import './App.css'
-
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
-function App() {
+function Router() {
 
   const router = createBrowserRouter([
 		{
 			path: '/',
-			element: <h1 className='bg-blue-400'>HI</h1>,
+			element: <h1 className='bg-blue-500'>hello world</h1>,
 		},
 		
 		{ path: '/*', element: <Navigate to={'/'} />},
@@ -18,4 +16,4 @@ function App() {
   )
 }
 
-export default App
+export default Router
