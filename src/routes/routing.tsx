@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 import LoginPage from '@/pages/LoginPage';	
 import DashboardLayout from '@/layouts/DashboardLayout';
+import RootLayout from '@/layouts/RootLayout';
 import DashboardHome from '@/pages/dashboard/DashboardHome';
 
 function Router() {
@@ -9,7 +10,11 @@ function Router() {
   const router = createBrowserRouter([
         {
 			path: '/login',
-			element: <LoginPage />,
+			element: (
+				<RootLayout>
+					<LoginPage />
+				</RootLayout>
+			),
 		},
         {
             path: '/dashboard',
