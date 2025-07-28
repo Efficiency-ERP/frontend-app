@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
-import LoginPage from '../pages/LoginPage';	
-import DashboardLayout from '../layouts/DashboardLayout';
-import DashboardHome from '../pages/dashboard/DashboardHome';
+import LoginPage from '@/pages/LoginPage';	
+import DashboardLayout from '@/layouts/DashboardLayout';
+import DashboardHome from '@/pages/dashboard/DashboardHome';
 
 function Router() {
 
