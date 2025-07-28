@@ -1,11 +1,15 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import '@/styles/index.css'
-import Router from './routes/routing.tsx'
+import '@/styles/globals.css'
+
+import Router from '@/routes/routing.tsx'
+import { ThemeProvider } from '@/providers/theme-provider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Router />
+    <ThemeProvider>
+      <Router />
+    </ThemeProvider>
   </StrictMode>,
 )
