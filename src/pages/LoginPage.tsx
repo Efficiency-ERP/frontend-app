@@ -13,6 +13,8 @@ function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Handle login logic here
+
+    window.location.href = 'dashboard'
     console.log("Login attempt:", { email, password })
   }
 

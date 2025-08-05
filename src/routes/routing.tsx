@@ -25,8 +25,20 @@ function Router() {
                 element: <DashboardHome />
                 },
                 {
-                path: 'invoice',
+                path: 'invoices',
                 element: <h1>INVOICE</h1>
+                },
+                {
+                path: 'clients',
+                element: <h1>CLIENTS</h1>
+                },
+                {
+                path: 'articles',
+                element: <h1>ARTICLES</h1>
+                },
+                {
+                path: 'cashflow',
+                element: <h1>CASHFLOW</h1>
                 },
                 {
                 path: '*',
