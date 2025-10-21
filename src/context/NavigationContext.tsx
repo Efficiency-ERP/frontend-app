@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react'
+import React, { createContext, useContext } from 'react'
 import { Home, FileText, Users, Newspaper, DollarSign } from 'lucide-react'
 
 export interface NavigationItem {
