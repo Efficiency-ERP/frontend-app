@@ -15,74 +15,13 @@ import {
 } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Outlet, useLocation, Link } from "react-router-dom"
+import { useNavigation } from "@/context/NavigationContext"
 
 export default function Page() {
   const location = useLocation()
+  const { getBreadcrumbsForPath } = useNavigation()
   
-  // Generate breadcrumbs based on current path
-  const generateBreadcrumbs = () => {
-    const pathSegments = location.pathname.split('/').filter(Boolean)
-    const breadcrumbs = []
-    
-    // Always start with Dashboard
-    breadcrumbs.push({
-      label: 'Dashboard',
-      href: '/dashboard',
-      isLast: pathSegments.length === 1
-    })
-    
-    // Add additional segments based on path
-    if (pathSegments.length > 1) {
-      const currentPage = pathSegments[1]
-      
-      switch (currentPage) {
-        case 'invoices':
-          breadcrumbs.push({
-            label: 'Invoices',
-            href: '/dashboard/invoices',
-            isLast: true
-          })
-          break
-        case 'clients':
-          breadcrumbs.push({
-            label: 'Invoices',
-            href: '/dashboard/invoices',
-            isLast: false
-          })
-          breadcrumbs.push({
-            label: 'Clients',
-            href: '/dashboard/clients',
-            isLast: true
-          })
-          break
-        case 'articles':
-           breadcrumbs.push({
-             label: 'Invoices',
-             href: '/dashboard/invoices',
-             isLast: false
-           })
-           breadcrumbs.push({
-             label: 'Articles',
-             href: '/dashboard/articles',
-             isLast: true
-           })
-           break
-        case 'cashflow':
-          breadcrumbs.push({
-            label: 'Cashflow',
-            href: '/dashboard/cashflow',
-            isLast: true
-          })
-          break
-        default:
-          break
-      }
-    }
-    
-    return breadcrumbs
-  }
-  
-  const breadcrumbs = generateBreadcrumbs()
+  const breadcrumbs = getBreadcrumbsForPath(location.pathname)
   
   return (
     <SidebarProvider>

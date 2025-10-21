@@ -3,10 +3,8 @@ import {
   AudioWaveform,
   Command,
   GalleryVerticalEnd,
-  Home,
-  FileText,
-  DollarSign,
 } from "lucide-react"
+import { useNavigation } from "@/context/NavigationContext"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -42,49 +40,19 @@ const data = {
       plan: "Free",
     },
   ],
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: Home,
-      isActive: true,
-    },
-    {
-      title: "Invoices",
-      url: "/dashboard/invoices",
-      icon: FileText,
-      items: [
-        {
-          title: "All Invoices",
-          url: "/dashboard/invoices",
-        },
-        {
-          title: "Clients",
-          url: "/dashboard/clients",
-        },
-        {
-          title: "Articles",
-          url: "/dashboard/articles",
-        },
-      ],
-    },
-    {
-      title: "Cashflow",
-      url: "/dashboard/cashflow",
-      icon: DollarSign,
-    },
-  ],
 
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { navigationItems } = useNavigation()
+  
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navigationItems} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

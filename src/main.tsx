@@ -3,9 +3,12 @@ import { createRoot } from 'react-dom/client'
 
 import '@/styles/index.css'
 import Router from './routes/routing.tsx'
+import { NavigationProvider } from './context/NavigationContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Router />
+    <NavigationProvider>
+      <Router />
+    </NavigationProvider>
   </StrictMode>,
 )
