@@ -2,17 +2,18 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 export default function LoginPage() {
+  const base = import.meta.env.BASE_URL
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
-          <a href="/login" className="flex items-center gap-2 font-medium">
-            <img src="/logo.svg" alt="Logo" className="h-6 w-32 dark:hidden" />
-            <img src="/logo_dark.svg" alt="Logo" className="h-6 w-32 hidden dark:block" />
-          </a>
+          <Link to="/login" className="flex items-center gap-2 font-medium">
+            <img src={`${base}logo.svg`} alt="Logo" className="h-6 w-32 dark:hidden" />
+            <img src={`${base}logo_dark.svg`} alt="Logo" className="h-6 w-32 hidden dark:block" />
+          </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
@@ -22,7 +23,7 @@ export default function LoginPage() {
       </div>
       <div className="bg-muted relative hidden lg:block">
         <img
-          src="/placeholder.svg"
+          src={`${base}placeholder.svg`}
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />

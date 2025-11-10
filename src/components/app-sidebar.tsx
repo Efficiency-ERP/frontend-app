@@ -45,13 +45,14 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { navigationItems } = useNavigation()
+  const base = import.meta.env.BASE_URL
   
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <Link to="/dashboard" className="flex items-center gap-2 font-medium">
-          <img src="/logo.svg" alt="Logo" className="h-6 w-32 dark:hidden" />
-          <img src="/logo_dark.svg" alt="Logo" className="h-6 w-32 hidden dark:block" />
+          <img src={`${base}logo.svg`} alt="Logo" className="h-6 w-32 dark:hidden" />
+          <img src={`${base}logo_dark.svg`} alt="Logo" className="h-6 w-32 hidden dark:block" />
         </Link>
       </SidebarHeader>
       <SidebarContent>
