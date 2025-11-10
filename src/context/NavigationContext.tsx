@@ -1,11 +1,12 @@
 import React, { createContext, useContext } from 'react'
-import { Home, FileText, Users, Newspaper, DollarSign } from 'lucide-react'
+import { Home, FileText, Users, Newspaper } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 export interface NavigationItem {
   title: string
   url: string
-  icon?: React.ComponentType<any>
-  items?: NavigationItem[]
+  icon?: LucideIcon
+  items?: { title: string; url: string }[]
 }
 
 export interface NavigationContextType {
@@ -26,28 +27,16 @@ const navigationItems: NavigationItem[] = [
     title: "Invoices",
     url: "/dashboard/invoices",
     icon: FileText,
-    items: [
-      {
-        title: "All Invoices",
-        url: "/dashboard/invoices",
-        icon: FileText,
-      },
-      {
-        title: "Clients",
-        url: "/dashboard/clients",
-        icon: Users,
-      },
-      {
-        title: "Articles",
-        url: "/dashboard/articles",
-        icon: Newspaper,
-      },
-    ],
   },
   {
-    title: "Cashflow",
-    url: "/dashboard/cashflow",
-    icon: DollarSign,
+    title: "Contacts",
+    url: "/dashboard/contacts",
+    icon: Users,
+  },
+  {
+    title: "Articles",
+    url: "/dashboard/articles",
+    icon: Newspaper,
   },
 ]
 
@@ -57,8 +46,10 @@ function findNavigationItem(items: NavigationItem[], path: string): NavigationIt
       return item
     }
     if (item.items) {
-      const found = findNavigationItem(item.items, path)
-      if (found) return found
+      const subMatch = item.items.find((sub) => sub.url === path)
+      if (subMatch) {
+        return { title: subMatch.title, url: subMatch.url }
+      }
     }
   }
   return null
@@ -75,31 +66,29 @@ function generateBreadcrumbs(path: string): Array<{ label: string; href: string;
   }
 
   const pathSegments = path.split('/').filter(Boolean)
-  
+
   if (pathSegments.includes('invoices')) {
-    breadcrumbs.push({ label: "Invoices", href: "/dashboard/invoices", isLast: false })
-  }
-  
-  if (pathSegments.includes('clients')) {
-    if (!pathSegments.includes('invoices')) {
-      breadcrumbs.push({ label: "Invoices", href: "/dashboard/invoices", isLast: false })
-    }
-    breadcrumbs.push({ label: "Clients", href: "/dashboard/clients", isLast: true })
+    breadcrumbs.push({ label: "Invoices", href: "/dashboard/invoices", isLast: true })
+  } else if (pathSegments.includes('contacts')) {
+    breadcrumbs.push({ label: "Contacts", href: "/dashboard/contacts", isLast: true })
   } else if (pathSegments.includes('articles')) {
-    if (!pathSegments.includes('invoices')) {
-      breadcrumbs.push({ label: "Invoices", href: "/dashboard/invoices", isLast: false })
-    }
     breadcrumbs.push({ label: "Articles", href: "/dashboard/articles", isLast: true })
-  } else if (pathSegments.includes('cashflow')) {
-    breadcrumbs.push({ label: "Cashflow", href: "/dashboard/cashflow", isLast: true })
-  } else if (pathSegments.includes('invoices') && pathSegments.length === 2) {
-    breadcrumbs[breadcrumbs.length - 1].isLast = true
+  } else if (pathSegments.includes('profile')) {
+    breadcrumbs.push({ label: "Profile", href: "/dashboard/profile", isLast: true })
+  } else if (pathSegments.includes('pme')) {
+    const isAdd = pathSegments.includes('add')
+    breadcrumbs.push({ label: "PME", href: "/dashboard/pme", isLast: !isAdd })
+    if (isAdd) {
+      breadcrumbs.push({ label: "Add PME", href: "/dashboard/pme/add", isLast: true })
+    }
+  } else if (pathSegments.includes('settings')) {
+    breadcrumbs.push({ label: "Settings", href: "/dashboard/settings", isLast: true })
   }
 
   return breadcrumbs
 }
 
-export function NavigationProvider({ children }: { children: ReactNode }) {
+export function NavigationProvider({ children }: { children: React.ReactNode }) {
   const getNavigationByPath = (path: string): NavigationItem | null => {
     return findNavigationItem(navigationItems, path)
   }
@@ -121,6 +110,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useNavigation() {
   const context = useContext(NavigationContext)
   if (context === undefined) {

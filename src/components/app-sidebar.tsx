@@ -5,10 +5,10 @@ import {
   GalleryVerticalEnd,
 } from "lucide-react"
 import { useNavigation } from "@/context/NavigationContext"
+import { Link } from "react-router-dom"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -49,7 +49,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher />
+        <Link to="/dashboard" className="flex items-center gap-2 font-medium">
+          <img src="/logo.svg" alt="Logo" className="h-6 w-32 dark:hidden" />
+          <img src="/logo_dark.svg" alt="Logo" className="h-6 w-32 hidden dark:block" />
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navigationItems} />

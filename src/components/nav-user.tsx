@@ -1,13 +1,11 @@
 "use client"
 
 import {
-  BadgeCheck,
-  Bell,
+  ClipboardList,
   ChevronsUpDown,
-  CreditCard,
+  UserCircle,
   LogOut,
   Settings,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -28,8 +26,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
+import { useSidebar } from "@/components/ui/use-sidebar"
+import { Link } from "react-router-dom"
 
 export function NavUser({
   user,
@@ -81,19 +80,25 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
+              <DropdownMenuGroup>
+              <DropdownMenuItem asChild>
+                <Link to="/dashboard/profile" className="flex items-center gap-2">
+                  <UserCircle />
+                  Profile
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+              <DropdownMenuItem asChild>
+                <Link to="/dashboard/logs" className="flex items-center gap-2">
+                  <ClipboardList />
+                  Logs
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings />
-                Settings
-            </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/dashboard/settings" className="flex items-center gap-2">
+                  <Settings />
+                  Settings
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>

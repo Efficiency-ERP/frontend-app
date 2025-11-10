@@ -1,5 +1,8 @@
 import * as React from "react"
 import { ChevronsUpDown, Plus, Building2, Eye } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import { useContactsStore } from "@/pages/dashboard/contacts/store-context"
+import { usePMESelection } from "@/context/pme-context"
 
 import {
   DropdownMenu,
@@ -14,30 +17,37 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
+import { useSidebar } from "@/components/ui/use-sidebar"
 
 type PMEItem = {
   id: string
   name: string
   icon: React.ElementType
-  type: 'pme' | 'view' | 'action'
+  type: 'pme' | 'view'
 }
-
-const pmeItems: PMEItem[] = [
-  { id: 'all', name: 'All PMEs', icon: Eye, type: 'view' },
-  { id: 'pme1', name: 'PME 1', icon: Building2, type: 'pme' },
-  { id: 'pme2', name: 'PME 2', icon: Building2, type: 'pme' },
-]
 
 export function TeamSwitcher() {
   const { isMobile } = useSidebar()
-  const [activePME, setActivePME] = React.useState(pmeItems[0])
+  const { organizations } = useContactsStore()
+  const { selectedOrgId, setSelectedOrgId } = usePMESelection()
+  const navigate = useNavigate()
 
   const handleAddPME = () => {
-    console.log('Add PME clicked')
-    // Add your PME creation logic here
+    navigate('/dashboard/pme/add')
   }
+
+  const items: PMEItem[] = React.useMemo(() => {
+    const base: PMEItem[] = [{ id: 'all', name: 'All PMEs', icon: Eye, type: 'view' }]
+    const orgs = organizations.map((o) => ({ id: o.id, name: o.name, icon: Building2, type: 'pme' as const }))
+    return [...base, ...orgs]
+  }, [organizations])
+
+  const activePME = React.useMemo(() => {
+    if (selectedOrgId === 'all') return items[0]
+    const found = items.find((i) => i.id === selectedOrgId)
+    return found ?? items[0]
+  }, [items, selectedOrgId])
 
   return (
     <SidebarMenu>
@@ -53,9 +63,7 @@ export function TeamSwitcher() {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{activePME.name}</span>
-                <span className="truncate text-xs">
-                  {activePME.type === 'view' ? 'Overview' : activePME.type === 'pme' ? 'PME Unit' : 'Action'}
-                </span>
+                <span className="truncate text-xs">{activePME.type === 'view' ? 'Overview' : 'PME Unit'}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -69,10 +77,10 @@ export function TeamSwitcher() {
             <DropdownMenuLabel className="text-muted-foreground text-xs">
               PME Selector
             </DropdownMenuLabel>
-            {pmeItems.map((pme, index) => (
+            {items.map((pme, index) => (
               <DropdownMenuItem
                 key={pme.id}
-                onClick={() => setActivePME(pme)}
+                onClick={() => setSelectedOrgId(pme.id)}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border">
